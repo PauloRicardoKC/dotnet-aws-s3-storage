@@ -1,0 +1,40 @@
+
+Configuração do Amazon S3 para o Projeto .NET
+
+1. Criar uma conta AWS.
+2. Escolher a região (recomendado: us-east-1).
+3. Amazon S3 > Create bucket.
+4. Nome único do bucket (ex.: storage-dev-2026).
+5. ACLs disabled.
+6. Block all public access habilitado.
+7. Criptografia SSE-S3.
+8. Criar o bucket.
+
+Criar usuário IAM
+- IAM > Users > Create user.
+- Nome: storage-api-user.
+- Criar e associar uma Policy com:
+  * s3:ListBucket
+  * s3:GetBucketLocation
+  * s3:GetObject
+  * s3:PutObject
+  * s3:DeleteObject
+
+Criar Access Key
+- Security credentials > Create access key.
+- Escolher: Application running outside AWS.
+- Salvar Access Key e Secret Access Key.
+
+Configurar User Secrets
+
+dotnet user-secrets init
+dotnet user-secrets set "Aws:Region" "us-east-1"
+dotnet user-secrets set "Aws:BucketName" "storage-dev-2026"
+dotnet user-secrets set "Aws:AccessKey" "SUA_ACCESS_KEY"
+dotnet user-secrets set "Aws:SecretKey" "SUA_SECRET_KEY"
+
+Testar:
+POST /files/upload
+GET /files/{key}
+GET /files/{key}/presigned-url
+DELETE /files/{key}

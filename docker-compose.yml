@@ -1,0 +1,14 @@
+services:
+  storage-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Aws__Region: ${AWS_REGION:-us-east-1}
+      Aws__BucketName: ${AWS_BUCKET_NAME}
+      Aws__AccessKey: ${AWS_ACCESS_KEY_ID}
+      Aws__SecretKey: ${AWS_SECRET_ACCESS_KEY}
+      OpenApi__Enabled: "true"
